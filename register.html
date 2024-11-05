@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Form</title>
-  <link rel="stylesheet" href="css/login.css" />
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="css/register.css" />
 </head>
 <body>
-  <div class="login_form">
-    <!-- Login form container -->
+  <div class="register_form">
+    <!-- register form container -->
     <form action="#">
-      <h3>Log in</h3>
+      <h3>Register</h3>
 
       
       <!-- Email input box -->
@@ -30,40 +30,67 @@
         <input type="password" id="password" placeholder="Enter your password" required />
       </div>
 
-       <!-- Login button -->
+       <!-- register button -->
       <button type="submit">Log In</button>
 
-      <p class="sign_up">Don't have an account? <a href="#">Sign up</a></p>
+      <p class="sign_up">Don't have an account? <a href="login.html">Log In</a></p>
       <p id="errorMessage" style="color: red; display: none;">Invalid email or password</p>
     </form>
   </div>
   <script>
-    // Function to handle form submission
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevents the default form submission
+    // Switch between forms
+    function showLogin() {
+      document.getElementById('registerForm').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+    }
 
-      // Get input values
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const errorMessage = document.getElementById("errorMessage");
+    function showRegister() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('registerForm').style.display = 'block';
+    }
 
-      // Basic validation
+    // Register function
+    function register() {
+      const email = document.getElementById("registerEmail").value;
+      const password = document.getElementById("registerPassword").value;
+      const registerError = document.getElementById("registerError");
+
       if (!email || !password) {
-        errorMessage.textContent = "Please enter both email and password.";
-        errorMessage.style.display = "block";
+        registerError.textContent = "Please enter an email and password.";
         return;
       }
 
-      // Simulate login process
-      if (email === "user@example.com" && password === "password123") {
-        alert("Login successful!");
-        errorMessage.style.display = "none";
-        // Redirect or further actions could go here
-      } else {
-        errorMessage.textContent = "Invalid email or password.";
-        errorMessage.style.display = "block";
+      // Check if user already exists
+      if (localStorage.getItem(email)) {
+        registerError.textContent = "Account already exists. Please log in.";
+        return;
       }
-    });
+
+      // Store user in localStorage
+      localStorage.setItem(email, password);
+      registerError.textContent = "";
+      alert("Account created successfully! You can now log in.");
+      showLogin(); // Redirect to login form
+    }
+
+    // Login function
+    function login() {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      const loginError = document.getElementById("loginError");
+
+      // Retrieve stored password for the given email
+      const storedPassword = localStorage.getItem(email);
+
+      // Validate user credentials
+      if (storedPassword && storedPassword === password) {
+        loginError.textContent = "";
+        alert("Login successful!");
+        // Redirect to another page or perform any other actions here
+      } else {
+        loginError.textContent = "Invalid email or password.";
+      }
+    }
   </script>
 </body>
 </html>
