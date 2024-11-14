@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Document Inquiry Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Student Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="student_index.html">Dashboard</a></li>
+                    <li><a href="#inquiry">New Inquiry</a></li>
+                    <li><a href="#history">Inquiry History</a></li>
+                    <li><a href="student_profile.html">Profile</a></li>
+                    <li><a href="#settings">Settings</a></li>
+                    <li><a href="#support">Support</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>DocuMentor Dashboard</h1>
+                <div class="user-info">
+                    <a href="login.html" class="logout-btn">Logout</a>
+                </div>
+            </header>
+
+            <!-- Inquiry Section -->
+            <section id="inquiry" class="section">
+                <h2>Request a Document</h2>
+                <form class="inquiry-form">
+                    <div class="name-fields">
+                        <div>
+                            <label for="first-name">First Name:</label>
+                            <input type="text" id="first-name" name="first-name" required>
+                        </div>
+                        <div>
+                            <label for="last-name">Last Name:</label>
+                            <input type="text" id="last-name" name="last-name" required>
+                        </div>
+                        <div>
+                            <label for="learner-reference-number">Learner Reference Number:</label>
+                            <input type="text" id="learner-reference-number" name="learner-reference-number" required>
+                        </div>
+                    </div>
+
+                    
+
+                    <label for="document-type">Document Type:</label>
+                    <select id="document-type" name="document-type">
+                        <option value="transcript">Transcript (Form 10)</option>
+                        <option value="certificate">Certificate</option>
+                        <option value="id-card">ID Card</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <label for="details">Details:</label>
+                    <textarea id="details" name="details" rows="4" placeholder="Provide more information..."></textarea>
+
+                    <button type="submit">Submit Inquiry</button>
+                </form>
+            </section>
+
+
+            <!-- Inquiry History -->
+            <section id="history" class="section">
+                <h2>Inquiry History</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Inquiry Date</th>
+                            <th>Document Type</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-11-14</td>
+                            <td>Transcript (Form 10)</td>
+                            <td><span class="status-pending">Pending</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="view-btn">View</button>
+                                    <button class="delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2024-10-29</td>
+                            <td>Certificate</td>
+                            <td><span class="status-approved">Approved</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="view-btn">View</button>
+                                    <button class="delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2024-09-15</td>
+                            <td>ID Card</td>
+                            <td><span class="status-rejected">Rejected</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="view-btn">View</button>
+                                    <button class="delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+.profile-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+.profile-container h2 {
+    margin-bottom: 15px;
+}
+.profile-info, .edit-profile, .change-password {
+    margin-bottom: 20px;
+}
+.profile-info label, .edit-profile label, .change-password label {
+    display: block;
+    margin: 8px 0 4px;
+}
+.profile-info p {
+    margin: 0;
+    font-size: 1.1em;
+}
+.edit-profile input, .change-password input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.edit-profile button, .change-password button {
+    padding: 10px 15px;
+    border: none;
+    color: white;
+    background-color: #007bff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Responsive design */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2d3e50;
+    color: #ffffff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.sidebar nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f4f7fb;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 28px;
+    color: #333;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    color: #d9534f;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    text-decoration: underline;
+}
+
+/* Profile Container */
+.profile-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-container h2 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 24px;
+}
+
+/* Profile Info */
+.profile-info label {
+    display: block;
+    margin: 8px 0 4px;
+    font-weight: bold;
+    color: #333;
+}
+
+.profile-info p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Edit Profile and Change Password Forms */
+.edit-profile, .change-password {
+    margin-top: 20px;
+}
+
+.edit-profile label, .change-password label {
+    display: block;
+    margin: 8px 0 4px;
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-profile input, .change-password input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.edit-profile button, .change-password button {
+    padding: 10px;
+    background-color: #5cb85c;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-profile button:hover, .change-password button:hover {
+    background-color: #4cae4c;
+}
