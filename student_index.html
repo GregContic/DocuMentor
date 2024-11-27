@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Document Inquiry Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="student_java.js"></script> 
 </head>
 <body>
     <div class="container">
@@ -13,7 +14,6 @@
             <h2>Student Dashboard</h2>
             <nav>
                 <ul>
-                    <li><a href="student_index.html">Dashboard</a></li>
                     <li><a href="#inquiry">New Inquiry</a></li>
                     <li><a href="#history">Inquiry History</a></li>
                     <li><a href="student_profile.html">Profile</a></li>
@@ -57,12 +57,12 @@
                     <label for="document-type">Document Type:</label>
                     <select id="document-type" name="document-type">
                         <option value="transcript">Transcript (Form 10)</option>
-                        <option value="certificate">Certificate</option>
+                        <option value="certificate">Certificate of Enrolment</option>
                         <option value="id-card">ID Card</option>
                         <option value="other">Other</option>
                     </select>
                     
-                    <label for="details">Details:</label>
+                    <label for="details">Reason for Inquiry:</label>
                     <textarea id="details" name="details" rows="4" placeholder="Provide more information..."></textarea>
 
                     <button type="submit">Submit Inquiry</button>
