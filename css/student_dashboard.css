@@ -5,6 +5,51 @@
   box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
+/*Navigation Bar*/
+#navtitle {
+  display: flex;
+  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+}
+#navlogo {
+  margin-right: 10%;
+  margin-left: 10%;
+  display: flex;
+  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+}
+.navbar{
+  background-color: #34495e;
+  padding: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.navdiv{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-header a{
+  font-size: 230%;
+  font-weight: 600; 
+  color: whitesmoke;
+  text-decoration: none;
+}
+.navlist{
+  display: flex;
+  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+.navlist > li > a{
+  color:whitesmoke;
+  font-size: 110%;
+  font-weight: bold; 
+  margin-right: 25px;
+}
 
 /* Layout */
 .container {
@@ -91,6 +136,7 @@
 .inquiry-form label {
   display: block;
   margin-bottom: 8px;
+  margin-top: 8px;
   font-weight: bold;
 }
 
