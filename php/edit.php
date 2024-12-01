@@ -7,6 +7,7 @@ $database = "documentor";
 // Create connection
 $connection = new mysqli($servername, $username, $password, $database);
 
+$id = "";
 $StudentName = "";
 $StudentLRN = "";
 $DocumentType = "";
@@ -16,7 +17,29 @@ $Status = "";
 $errorMessage = "";
 $successMessage = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (!isset($_GET['id'])) {
+        header("Location: /Documentor/admin_index.php");
+        exit;
+    }
+
+    $id = intval($_GET['id']); // Ensure $id is numeric
+
+    $sql = "SELECT * FROM studentinquiries WHERE id = $id";
+    $result = $connection->query($sql);
+
+    if ($result && $row = $result->fetch_assoc()) {
+        $StudentName = $row["StudentName"];
+        $StudentLRN = $row["StudentLRN"];
+        $DocumentType = $row["DocumentType"];
+        $Details = $row["Details"];
+        $Status = $row["Status"];
+    } else {
+        header("Location: /Documentor/admin_index.php");
+        exit;
+    }
+} else {
+    $id = intval($_POST["id"]); // Retrieve $id from form
     $StudentName = $_POST["studentName"];
     $StudentLRN = $_POST["studentLRN"];
     $DocumentType = $_POST["docType"];
@@ -25,33 +48,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     do {
         if (empty($StudentName) || empty($StudentLRN) || empty($DocumentType) || empty($Details) || empty($Status)) {
-            $errorMessage = "All the fields are required";
+            $errorMessage = "All fields are required.";
             break;
         }
 
-        // add new client to database
-        $sql = "INSERT INTO studentinquiries (StudentName, StudentLRN, DocumentType, Details, Status)" . 
-                " VALUES ('$StudentName', '$StudentLRN', '$DocumentType', '$Details', '$Status')";
+        // Use prepared statements to prevent SQL injection
+        $stmt = $connection->prepare("UPDATE studentinquiries SET StudentName=?, StudentLRN=?, DocumentType=?, Details=?, Status=? WHERE id=?");
+        $stmt->bind_param("sssssi", $StudentName, $StudentLRN, $DocumentType, $Details, $Status, $id);
 
-        
-        $result = $connection->query($sql);
-
-        if (!$result) {
-            $errorMessage = "Error: ". $connection->error;
+        if (!$stmt->execute()) {
+            $errorMessage = "Error: " . $stmt->error;
             break;
         }
 
-        $StudentName = "";
-        $StudentLRN = "";
-        $DocumentType = "";
-        $Details = "";
-        $Status = "";
+        $stmt->close();
 
-        $successMessage = "Added successfully";
-
-        header("Location: /DocuMentor/admin_index.php");
+        $successMessage = "Inquiry updated successfully.";
+        header("Location: /Documentor/admin_index.php");
         exit;
-
     } while (false);
 }
 ?>
@@ -82,6 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          ?>
 
         <form method="post">
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
             <div class="row mb-3">
                 <label for="studentName" class="col-sm-2 col-form-label">Student Name:</label>
                 <div class="col-sm-6">
