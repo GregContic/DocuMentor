@@ -54,40 +54,48 @@
             <!-- Inquiry Section -->
             <section id="inquiry" class="section">
                 <h2>Request a Document</h2>
-                <form class="inquiry-form">
+                <form class="inquiry-form" action="process_inquiry.php" method="POST">
                     <div class="name-fields">
                         <div>
                             <label for="first-name">First Name:</label>
-                            <input type="text" id="first-name" name="first-name" required>
+                            <input type="text" id="first-name" name="first_name" required>
                         </div>
                         <div>
                             <label for="last-name">Last Name:</label>
-                            <input type="text" id="last-name" name="last-name" required>
+                            <input type="text" id="last-name" name="last_name" required>
                         </div>
                         <div>
                             <label for="learner-reference-number">Learner Reference Number:</label>
-                            <input type="text" id="learner-reference-number" name="learner-reference-number" required>
+                            <input type="text" id="learner-reference-number" name="learner_reference_number" required>
                         </div>
                     </div>
 
-                    
+                    <div class="contact-fields">
+                        <div>
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div>
+                            <label for="phone">Phone Number:</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
 
                     <label for="document-type">Document Type:</label>
-                    <select id="document-type" name="document-type">
-                        <option value="select-form">Select Form</option>
+                    <select id="document-type" name="document_type" required>
+                        <option value="">Select Form</option>
                         <option value="transcript">Transcript (Form 10)</option>
-                        <option value="certificate">Certificate of Enrolment</option>
+                        <option value="certificate">Certificate of Enrollment</option>
                         <option value="id-card">ID Card</option>
                         <option value="other">Other</option>
                     </select>
                     
-                    <label for="details">Reason for Inquiry:</label>
-                    <textarea id="details" name="details" rows="4" placeholder="Provide more information..."></textarea>
+                    <label for="reason">Reason for Inquiry:</label>
+                    <textarea id="reason" name="reason" rows="4" placeholder="Provide more information..." required></textarea>
 
-                    <button type="submit">Submit Inquiry</button>
+                    <button type="submit" class="submit-btn">Submit Inquiry</button>
                 </form>
             </section>
-
 
             <!-- Inquiry History -->
             <section id="history" class="section">

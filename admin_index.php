@@ -8,40 +8,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Data Table with Filter Row Feature</title>
 
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-<!--
-<script>
-$(document).ready(function(){
-	$(".btn-group .btn").click(function(){
-		var inputValue = $(this).find("input").val();
-		if(inputValue != 'all'){
-			var target = $('table tr[data-status="' + inputValue + '"]');
-			$("table tbody tr").not(target).hide();
-			target.fadeIn();
-		} else {
-			$("table tbody tr").fadeIn();
-		}
-	});
-	// Changing the class of status label to support Bootstrap 4
-    var bs = $.fn.tooltip.Constructor.VERSION;
-    var str = bs.split(".");
-    if(str[0] == 4){
-        $(".label").each(function(){
-        	var classStr = $(this).attr("class");
-            var newClassStr = classStr.replace(/label/g, "badge");
-            $(this).removeAttr("class").addClass(newClassStr);
-        });
-    }
-});
-</script>
--->
+
 </head>
 <body>
     <!-- Navigation Bar -->

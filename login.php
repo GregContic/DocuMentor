@@ -39,6 +39,7 @@ if (isset($_POST["submit"])) {
         <!-- Login form container -->
         <form action="login.php" method="POST">
             <h3>Login</h3>
+            <br>
             <div class="input_box">
                 <label for="usernameOrEmail">Username or Email</label>
                 <input type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Enter username or email" required />

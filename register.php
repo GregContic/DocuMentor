@@ -71,61 +71,6 @@ if (isset($_POST["submit"])) {
 </form>
 
   </div>
-  <!--
-  <script>
-    // Switch between forms
-    function showLogin() {
-      document.getElementById('registerForm').style.display = 'none';
-      document.getElementById('loginForm').style.display = 'block';
-    }
-
-    function showRegister() {
-      document.getElementById('loginForm').style.display = 'none';
-      document.getElementById('registerForm').style.display = 'block';
-    }
-
-    // Register function
-    function register() {
-      const email = document.getElementById("registerEmail").value;
-      const password = document.getElementById("registerPassword").value;
-      const registerError = document.getElementById("registerError");
-
-      if (!email || !password) {
-        registerError.textContent = "Please enter an email and password.";
-        return;
-      }
-
-      // Check if user already exists
-      if (localStorage.getItem(email)) {
-        registerError.textContent = "Account already exists. Please log in.";
-        return;
-      }
-
-      // Store user in localStorage
-      localStorage.setItem(email, password);
-      registerError.textContent = "";
-      alert("Account created successfully! You can now log in.");
-      showLogin(); // Redirect to login form
-    }
-
-    // Login function
-    function login() {
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      const loginError = document.getElementById("loginError");
-
-      // Retrieve stored password for the given email
-      const storedPassword = localStorage.getItem(email);
-
-      // Validate user credentials
-      if (storedPassword && storedPassword === password) {
-        loginError.textContent = "";
-        alert("Login successful!");
-        // Redirect to another page or perform any other actions here
-      } else {
-        loginError.textContent = "Invalid email or password.";
-      }
-    }
-  </script>-->
+  
 </body>
 </html>
