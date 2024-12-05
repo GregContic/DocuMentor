@@ -16,7 +16,7 @@ if (isset($_POST["submit"])) {
         if (password_verify($password, $user["password"])) {
             echo "<script>alert('Login successful!');</script>";
             // Redirect to a dashboard or homepage
-            header("Location: admin_index.php");
+            header("Location: admin_index_new.php");
         } else {
             echo "<script>alert('Incorrect password.');</script>";
         }

@@ -19,7 +19,7 @@ $successMessage = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (!isset($_GET['id'])) {
-        header("Location: /Documentor/admin_index.php");
+        header("Location: /Documentor/admin_index_new.php");
         exit;
     }
 
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $Details = $row["Details"];
         $Status = $row["Status"];
     } else {
-        header("Location: /Documentor/admin_index.php");
+        header("Location: /Documentor/admin_index_new.php");
         exit;
     }
 } else {
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $stmt->close();
 
         $successMessage = "Inquiry updated successfully.";
-        header("Location: /Documentor/admin_index.php");
+        header("Location: /Documentor/admin_index_new.php");
         exit;
     } while (false);
 }
@@ -363,7 +363,7 @@ label {
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
                 <div class="col-sm-3 d-grid">
-                    <a class="btn btn-outline-primary" href="/DocuMentor/admin_index.php">Cancel</a>
+                    <a class="btn btn-outline-primary" href="/DocuMentor/admin_index_new.php">Cancel</a>
                 </div>
             </div>
             </div>

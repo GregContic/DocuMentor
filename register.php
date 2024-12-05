@@ -63,8 +63,8 @@ if (isset($_POST["submit"])) {
         <input type="password" id="password" name="password" placeholder="Enter your password" required />
     </div>
     <div class="input_box">
-        <label for="confirmpassword">Confirm Password</label>
-        <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm your password" required />
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required />
     </div>
     <button type="submit" name="submit">Register</button>
     <p class="sign_up">Already have an account? <a href="login.php">Log In</a></p>

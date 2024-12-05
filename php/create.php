@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $successMessage = "Added successfully";
 
-        header("Location: /DocuMentor/admin_index.php");
+        header("Location: /DocuMentor/admin_index_new.php");
         exit;
 
     } while (false);
@@ -345,7 +345,7 @@ label {
 
             <div class="button-container">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a class="btn btn-outline-primary" href="/DocuMentor/admin_index.php">Cancel</a>
+                <a class="btn btn-outline-primary" href="/DocuMentor/admin_index_new.php">Cancel</a>
             </div>
         </form>
     </div>

@@ -14,6 +14,6 @@ $connection = new mysqli($servername, $username, $password, $database);
 $sql = "DELETE FROM studentinquiries WHERE id=$id";
 $connection->query($sql);
  }
- header("Location: /Documentor/admin_index.php");
+ header("Location: /Documentor/admin_index_new.php");
  exit;
 ?>
