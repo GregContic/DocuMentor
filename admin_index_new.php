@@ -392,7 +392,6 @@ if (!$result) {
 
             <!-- Inquiries Section -->
             <section id="inquiries" class="section">
-                <h2>New Inquiries</h2>
                 <div class="filter">
                     <label for="filter-document">Filter by Document Type:</label>
                     <select id="filter-document">

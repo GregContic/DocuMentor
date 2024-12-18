@@ -6,7 +6,7 @@ if (isset($_POST["submit"])) {
     $password = $_POST["password"];
 
     // Query to check username or email
-    $query = "SELECT * FROM reglog WHERE username = '$usernameOrEmail' OR email = '$usernameOrEmail'";
+    $query = "SELECT * FROM reglog WHERE email = '$usernameOrEmail'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {

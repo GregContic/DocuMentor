@@ -3,13 +3,13 @@ require 'config.php';
 
 if (isset($_POST["submit"])) {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $username = mysqli_real_escape_string($conn, $_POST["username"]);
     $email = mysqli_real_escape_string($conn, $_POST["email"]);
+    $number = mysqli_real_escape_string($conn, $_POST["number"]);
     $password = $_POST["password"];
     $confirmPassword = $_POST["confirmPassword"];
 
     // Check for duplicate username or email
-    $duplicate = mysqli_query($conn, "SELECT * FROM reglog WHERE username = '$username' OR email = '$email'");
+    $duplicate = mysqli_query($conn, "SELECT * FROM reglog WHERE name = '$name' OR email = '$email'");
     
     if (mysqli_num_rows($duplicate) > 0) {
         echo "<script>alert('Username or Email already exists');</script>";
@@ -19,7 +19,7 @@ if (isset($_POST["submit"])) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // Insert into the database
-            $query = "INSERT INTO reglog (name, username, email, password) VALUES ('$name', '$username', '$email', '$hashedPassword')";
+            $query = "INSERT INTO reglog (name, email, password) VALUES ('$name', '$email', '$hashedPassword')";
             if (mysqli_query($conn, $query)) {
                 echo "<script>alert('Registration successful');</script>";
             } else {
@@ -47,17 +47,18 @@ if (isset($_POST["submit"])) {
     <form action="register.php" method="POST">
     <h3>Register</h3>
     <div class="input_box">
-        <label for="name">Name</label>
+        <label for="name">Full Name</label>
         <input type="text" id="name" name="name" placeholder="Enter name" required />
-    </div>
-    <div class="input_box">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter username" required />
     </div>
     <div class="input_box">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="Enter email address" required />
     </div>
+    <div class="input_box">
+        <label for="number">Phone Number</label>
+        <input type="number" id="number" name="number" placeholder="Enter Phone Number" required />
+    </div>
+    
     <div class="input_box">
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter your password" required />
