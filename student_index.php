@@ -87,7 +87,7 @@ if (!$result) {
                 <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="#inquiry"><i class="fas fa-file-alt"></i> New Inquiry</a></li>
                 <li><a href="#history"><i class="fas fa-history"></i> History</a></li>
-                <li><a href="student_profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="student_profile.php"><i class="fas fa-user"></i> Profile</a></li>
             </ul>
         </div>
     </div>
@@ -102,7 +102,7 @@ if (!$result) {
                     <ul>
                         <li><a href="#inquiry"><i class="fas fa-file-alt"></i> New Inquiry</a></li>
                         <li><a href="#history"><i class="fas fa-history"></i> Inquiry History</a></li>
-                        <li><a href="student_profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                        <li><a href="student_profile.php"><i class="fas fa-user"></i> Profile</a></li>
                         <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
                         <li><a href="#support"><i class="fas fa-question-circle"></i> Support</a></li>
                     </ul>
@@ -147,6 +147,8 @@ if (!$result) {
                             </label>
                             <select class="form-control" id="docType" name="docType">
                                 <option value="">Select Document Type</option>
+                                <option value="Form 137">Form 137</option>
+                                <option value="Certificate of Good Moral">Certificate of Good Moral</option>
                                 <option value="Transcript (Form 10)">Transcript (Form 10)</option>
                                 <option value="Certificate of Enrolment">Certificate of Enrollment</option>
                                 <option value="ID Card">ID Card</option>
