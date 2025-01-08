@@ -33,45 +33,92 @@ if (isset($_POST["submit"])) {
 ?>
 
 <!DOCTYPE html>
-<!-- Source Codes By CodingNepal - www.codingnepalweb.com -->
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registration Form</title>
-  <link rel="stylesheet" href="css/register.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - DocuMentor</title>
+    <link rel="stylesheet" href="css/admin_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div class="register_form">
-    <!-- register form container -->
-    <form action="register.php" method="POST">
-    <h3>Register</h3>
-    <div class="input_box">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter name" required />
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="images/logo.png" alt="DocuMentor Logo" width="80" height="80">
+                <h1>Create Account</h1>
+                <p>Join DocuMentor today</p>
+            </div>
+            <form action="register.php" method="POST" class="login-form">
+                <div class="form-group">
+                    <label for="name">
+                        <i class="fas fa-user"></i> Full Name
+                    </label>
+                    <input type="text" 
+                           class="form-control"
+                           id="name" 
+                           name="name" 
+                           placeholder="Enter your full name" 
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email Address
+                    </label>
+                    <input type="email" 
+                           class="form-control"
+                           id="email" 
+                           name="email" 
+                           placeholder="Enter your email" 
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="number">
+                        <i class="fas fa-phone"></i> Phone Number
+                    </label>
+                    <div class="phone-input">
+                        <span class="phone-prefix">+63</span>
+                        <input type="tel" 
+                               class="form-control"
+                               id="number" 
+                               name="number" 
+                               placeholder="9XX XXX XXXX"
+                               pattern="\d{10}"
+                               minlength="10" 
+                               maxlength="10"
+                               required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" 
+                           class="form-control"
+                           id="password" 
+                           name="password" 
+                           placeholder="Create a password" 
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        <i class="fas fa-lock"></i> Confirm Password
+                    </label>
+                    <input type="password" 
+                           class="form-control"
+                           id="confirmPassword" 
+                           name="confirmPassword" 
+                           placeholder="Confirm your password" 
+                           required>
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                <p class="register-link">
+                    Already have an account? <a href="login.php">Login here</a>
+                </p>
+            </form>
+        </div>
     </div>
-    <div class="input_box">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter email address" required />
-    </div>
-    <div class="input_box">
-        <label for="number">Phone Number</label>
-        <input type="number" id="number" name="number" placeholder="Enter Phone Number" required />
-    </div>
-    
-    <div class="input_box">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required />
-    </div>
-    <div class="input_box">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required />
-    </div>
-    <button type="submit" name="submit">Register</button>
-    <p class="sign_up">Already have an account? <a href="login.php">Log In</a></p>
-</form>
-
-  </div>
-  
 </body>
 </html>

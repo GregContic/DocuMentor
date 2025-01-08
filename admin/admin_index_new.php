@@ -27,7 +27,7 @@ if (!$result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - DocuMentor</title>
-    <link rel="stylesheet" href="css/admin_styles.css">
+    <link rel="stylesheet" href="/documentor/css/admin_styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Animations */
@@ -349,7 +349,7 @@ if (!$result) {
         <div class="navdiv">
             <div class="nav-header">
                 <a href="#" id="navtitle">
-                    <img src="images/logo.png" alt="Documentor Logo" width="50" height="50" id="navlogo">
+                    <img src="/documentor/images/logo.png" alt="Documentor Logo" width="50" height="50" id="navlogo">
                     Documentor
                 </a>
             </div>
@@ -407,7 +407,7 @@ if (!$result) {
                     <div class="table-header">
                         <h2>List of Inquiries</h2>
                         <a href="/documentor/php/create.php" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> New Inquiry
+                            <i class="fas fa-plus"></i> Edit Directory
                         </a>
                     </div>
                     <table class="table">

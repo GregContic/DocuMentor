@@ -836,3 +836,85 @@ textarea.form-control {
         width: 100%;
     }
 }
+
+/* Phone input specific styles */
+.phone-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.phone-prefix {
+    position: absolute;
+    left: 15px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.phone-input .form-control {
+    padding-left: 55px;
+}
+
+/* Login/Register page specific updates */
+.login-header p {
+    color: #7f8c8d;
+    margin-top: 0.5rem;
+}
+
+.login-card {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.login-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.login-form .btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 12px;
+    justify-content: center;
+}
+
+.login-form label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.login-form label i {
+    color: #3498db;
+    width: 20px;
+}
+
+.form-control {
+    background-color: #f8fafc;
+    border: 2px solid #e2e8f0;
+}
+
+.form-control:focus {
+    background-color: #fff;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #7f8c8d;
+}
+
+.register-link a {
+    color: #3498db;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}

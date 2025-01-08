@@ -165,3 +165,32 @@ form button {
 form button:hover {
     background: #4954d0;
 }
+
+.phone-input-container {
+    display: flex;
+    gap: 0;
+    width: 100%;
+}
+
+.prefix {
+    background-color: #f0f0f0;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.phone-input-container input {
+    border-radius: 0 5px 5px 0 !important;
+    width: 100% !important;
+}
+
+/* Adjust the input box styles if needed */
+.input_box {
+    width: 100%;
+    margin-bottom: 15px;
+}
