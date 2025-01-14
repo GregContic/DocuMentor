@@ -309,9 +309,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="docType" class="col-sm-2 col-form-label">Document Type:</label>
                 <div class="col-sm-6">
                     <select class="form-control" id="docType" name="docType" value="<?php echo $DocumentType; ?>">
-                        <option value="select-form">Select Form</option>
+                    <option value="">Select Document Type</option>
+                        <option value="Transcript of Records (TOR)">Transcript of Records (TOR)</option>
+                        <option value="Certificate of Graduation">Certificate of Graduation</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Certificate of Enrollment">Certificate of Enrollment</option>
+                        <option value="Affidavit of Lost Documents">Affidavit of Lost Documents</option>
+                        <option value="Form 137">Form 137</option>
+                        <option value="Certificate of Good Moral">Certificate of Good Moral</option>
                         <option value="Transcript (Form 10)">Transcript (Form 10)</option>
-                        <option value="Certificate of Enrolment">Certificate of Enrollment</option>
                         <option value="ID Card">ID Card</option>
                         <option value="other">Other</option>
                     </select>
@@ -345,7 +351,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="button-container">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a class="btn btn-outline-primary" href="/DocuMentor/admin_index_new.php">Cancel</a>
+                <a class="btn btn-outline-primary" href="/DocuMentor/admin/admin_index_new.php">Cancel</a>
             </div>
         </form>
     </div>

@@ -19,6 +19,28 @@ $result = $connection->query($sql);
 if (!$result) {
     die("Invalid query: " . $connection->error);
 }
+// Get the filter value from URL parameter, default to 'all'
+$statusFilter = isset($_GET['status']) ? $_GET['status'] : 'all';
+
+// Modify the SQL query based on the filter
+$sql = "SELECT * FROM studentinquiries";
+if ($statusFilter !== 'all') {
+    $sql .= " WHERE Status = '$statusFilter'";
+}
+$result = $connection->query($sql);
+
+if (!$result) {
+    die("Invalid query: " . $connection->error);
+}
+?>
+
+
+<script>
+function filterByStatus(status) {
+    // Update the URL with the new filter value
+    window.location.href = 'admin_index_new.php?status=' + status;
+}
+</script> 
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +49,7 @@ if (!$result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - DocuMentor</title>
-    <link rel="stylesheet" href="/documentor/css/admin_styles.css">
+    <link rel="stylesheet" href="/Documentor/css/admin_styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Animations */
@@ -357,7 +379,7 @@ if (!$result) {
                 <li class="nav-list"><a href="#">Home</a></li>
                 <li class="nav-list"><a href="">Dashboard</a></li>
                 <li class="nav-list"><a href="">Reports</a></li>
-                <li class="nav-list"><a href="admin_profile.html"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                <li class="nav-list"><a href="/documentor/admin/admin_profile.html"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                 <div class="search-bar">
                     <input type="text" placeholder="Search..." />
                     <button type="submit">Search</button>
@@ -395,10 +417,26 @@ if (!$result) {
                 <div class="filter">
                     <label for="filter-document">Filter by Document Type:</label>
                     <select id="filter-document">
-                        <option value="all">All</option>
-                        <option value="transcript">Transcript</option>
-                        <option value="certificate">Certificate of Enrollment</option>
-                        <option value="id-card">ID Card</option>
+                        <option value="All">All</option>
+                        <option value="Transcript of Records (TOR)">Transcript of Records (TOR)</option>
+                        <option value="Certificate of Graduation">Certificate of Graduation</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Certificate of Enrollment">Certificate of Enrollment</option>
+                        <option value="Affidavit of Lost Documents">Affidavit of Lost Documents</option>
+                        <option value="Form 137">Form 137</option>
+                        <option value="Certificate of Good Moral">Certificate of Good Moral</option>
+                        <option value="Transcript (Form 10)">Transcript (Form 10)</option>
+                        <option value="ID Card">ID Card</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="status-filter">Filter by Status:</label>
+                    <select id="status-filter" class="form-control" onchange="filterByStatus(this.value)">
+                        <option value="all" <?php echo $statusFilter === 'all' ? 'selected' : ''; ?>>All Requests</option>
+                        <option value="Pending" <?php echo $statusFilter === 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                        <option value="In Progress" <?php echo $statusFilter === 'In Progress' ? 'selected' : ''; ?>>In Progress</option>
+                        <option value="Completed" <?php echo $statusFilter === 'Completed' ? 'selected' : ''; ?>>Completed</option>
+                        <option value="Rejected" <?php echo $statusFilter === 'Rejected' ? 'selected' : ''; ?>>Rejected</option>
                     </select>
                 </div>
 
@@ -407,7 +445,7 @@ if (!$result) {
                     <div class="table-header">
                         <h2>List of Inquiries</h2>
                         <a href="/documentor/php/create.php" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Edit Directory
+                            <i class="fas fa-plus"></i> New
                         </a>
                     </div>
                     <table class="table">

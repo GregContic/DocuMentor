@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $stmt->close();
 
         $successMessage = "Inquiry updated successfully.";
-        header("Location: /Documentor/admin_index_new.php");
+        header("Location: /Documentor/admin/admin_index_new.php");
         exit;
     } while (false);
 }
@@ -323,9 +323,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 <label for="docType" class="col-sm-2 col-form-label">Document Type:</label>
                 <div class="col-sm-6">
                     <select class="form-control" id="docType" name="docType" value="<?php echo $DocumentType; ?>">
-                        <option value="select-form">Select Form</option>
+                    <option value="">Select Document Type</option>
+                        <option value="Transcript of Records (TOR)">Transcript of Records (TOR)</option>
+                        <option value="Certificate of Graduation">Certificate of Graduation</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Certificate of Enrollment">Certificate of Enrollment</option>
+                        <option value="Affidavit of Lost Documents">Affidavit of Lost Documents</option>
+                        <option value="Form 137">Form 137</option>
+                        <option value="Certificate of Good Moral">Certificate of Good Moral</option>
                         <option value="Transcript (Form 10)">Transcript (Form 10)</option>
-                        <option value="Certificate of Enrolment">Certificate of Enrolment</option>
                         <option value="ID Card">ID Card</option>
                         <option value="other">Other</option>
                     </select>
@@ -343,7 +349,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     <select class="form-control" id="status" name="status" value="<?php echo $Status; ?>">
                         <option value="Pending for Approval">Pending for Approval</option>
                         <option value="In Progress">In Progress</option>
-                        <option value="Completed, Ready for Pickup">Completed, Ready for Pickup</option>
+                        <option value="Completed">Completed, Ready for Pickup</option>
                     </select>
                 </div>
             </div>
@@ -364,7 +370,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
             <div class="button-container">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a class="btn btn-outline-primary" href="/DocuMentor/admin_index_new.php">Cancel</a>
+                <a class="btn btn-outline-primary" href="/DocuMentor/admin/admin_index_new.php">Cancel</a>
             </div>
         </form>
     </div>

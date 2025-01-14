@@ -147,10 +147,14 @@ if (!$result) {
                             </label>
                             <select class="form-control" id="docType" name="docType">
                                 <option value="">Select Document Type</option>
+                                <option value="Transcript of Records (TOR)">Transcript of Records (TOR)</option>
+                                <option value="Certificate of Graduation">Certificate of Graduation</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Certificate of Enrollment">Certificate of Enrollment</option>
+                                <option value="Affidavit of Lost Documents">Affidavit of Lost Documents</option>
                                 <option value="Form 137">Form 137</option>
                                 <option value="Certificate of Good Moral">Certificate of Good Moral</option>
                                 <option value="Transcript (Form 10)">Transcript (Form 10)</option>
-                                <option value="Certificate of Enrolment">Certificate of Enrollment</option>
                                 <option value="ID Card">ID Card</option>
                                 <option value="other">Other</option>
                             </select>

@@ -21,7 +21,7 @@
                 <li><a href="student_index.php"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="student_index.php#inquiry"><i class="fas fa-file-alt"></i> New Inquiry</a></li>
                 <li><a href="student_index.php#history"><i class="fas fa-history"></i> History</a></li>
-                <li><a href="student_profile.html" class="active"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="student_profile.php" class="active"><i class="fas fa-user"></i> Profile</a></li>
             </ul>
         </div>
     </div>
