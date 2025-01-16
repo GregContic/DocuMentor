@@ -1,58 +1,78 @@
 <?php
 session_start();
-if (!isset($_SESSION['temp_qr'])) {
+require 'config.php';
+
+if (!isset($_SESSION['temp_qr']) || !isset($_SESSION['form_data'])) {
     header("Location: fill-up.php");
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify QR Code - DocuMentor</title>
+    <title>Verify Request - DocuMentor</title>
     <link rel="stylesheet" href="css/admin_styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="qr-verification">
-            <h2>Scan QR Code to Submit Request</h2>
+        <div class="verification-card">
+            <h2>Verify Your Request</h2>
+            <p>Please scan this QR code to verify your request</p>
+            
             <div class="qr-container">
-                <img src="<?php echo $_SESSION['temp_qr']; ?>" alt="QR Code">
+                <img src="<?php echo $_SESSION['temp_qr']; ?>" alt="Verification QR Code">
             </div>
-            <p>Please scan this QR code to verify and submit your request</p>
-            <div id="status-message"></div>
+
+            <div id="verification-status">
+                <p>Waiting for verification...</p>
+            </div>
+
+            <button class="btn btn-primary" onclick="checkVerification()">
+                <i class="fas fa-check-circle"></i> Complete Submission
+            </button>
         </div>
     </div>
 
     <script>
-    // Poll for verification status
-    function checkVerification() {
-        fetch('verify.php?id=<?php echo $_SESSION['temp_id']; ?>&check=1')
+        function checkVerification() {
+            // Simulate verification (in a real app, this would check if QR was scanned)
+            fetch('verify.php?check=1&id=<?php echo $_SESSION['temp_id']; ?>')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.verified) {
+                        submitRequest();
+                    } else {
+                        document.getElementById('verification-status').innerHTML = 
+                            '<p class="error">Please scan the QR code first</p>';
+                    }
+                });
+        }
+
+        function submitRequest() {
+            fetch('fill-up.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'verify_qr=1'
+            })
             .then(response => response.json())
             .then(data => {
-                if (data.verified) {
-                    // Submit the form data
-                    fetch('fill-up.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: 'verify_qr=1'
-                    })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.success) {
-                            window.location.href = 'student_index.php?success=1';
-                        }
-                    });
+                if (data.success) {
+                    alert('Request submitted successfully!');
+                    window.location.href = 'student/student_index.php';
+                } else {
+                    alert('Error submitting request. Please try again.');
                 }
             });
-    }
+        }
 
-    // Check every 2 seconds
-    setInterval(checkVerification, 2000);
+        // Check verification status every 5 seconds
+        setInterval(checkVerification, 5000);
     </script>
 </body>
 </html> 
