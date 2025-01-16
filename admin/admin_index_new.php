@@ -414,6 +414,7 @@ function filterByStatus(status) {
 
             <!-- Inquiries Section -->
             <section id="inquiries" class="section">
+                
                 <div class="filter">
                     <label for="filter-document">Filter by Document Type:</label>
                     <select id="filter-document">
@@ -472,6 +473,7 @@ function filterByStatus(status) {
                                     <td>{$row['InquiryDate']}</td>
                                     <td>{$row['Details']}</td>
                                     <td><span class='status {$statusClass}'>{$row['Status']}</span></td>
+                                    
                                     <td>
                                         <a class='btn btn-primary' href='/Documentor/php/edit.php?id={$row['ID']}'>
                                             <i class='fas fa-edit'></i>

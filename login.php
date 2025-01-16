@@ -19,7 +19,7 @@ if (isset($_POST["submit"])) {
             if ($user["role"] === "admin") {
                 header("Location: /documentor/admin/admin_index_new.php");
             } else {
-                header("Location: /documentor/student_index.php");
+                header("Location: /documentor/student/student_index.php");
             }
             exit(); // Add exit after redirect
         } else {

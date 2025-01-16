@@ -918,3 +918,167 @@ textarea.form-control {
     color: #2980b9;
     text-decoration: underline;
 }
+
+/* Verification Styles */
+.verification-card {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.verification-success,
+.verification-error,
+.verification-pending {
+    padding: 2rem;
+}
+
+.verification-success i,
+.verification-error i,
+.verification-pending i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.verification-success i {
+    color: #2ecc71;
+}
+
+.verification-error i {
+    color: #e74c3c;
+}
+
+.verification-pending i {
+    color: #f1c40f;
+}
+
+.document-details {
+    text-align: left;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.document-details p {
+    margin: 0.5rem 0;
+    color: #2c3e50;
+}
+
+/* Header with button styles */
+.header-with-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.header-with-button h2 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-with-button .btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 15px;
+    height: fit-content;
+}
+
+/* Responsive adjustment */
+@media (max-width: 576px) {
+    .header-with-button {
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    
+    .header-with-button .btn {
+        margin-left: 0;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 500px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #7f8c8d;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #2c3e50;
+}
+
+.qr-container {
+    margin: 2rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.qr-container img {
+    max-width: 200px;
+    height: auto;
+}
+
+.modal h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.modal p {
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+.modal .btn {
+    margin-top: 1rem;
+}

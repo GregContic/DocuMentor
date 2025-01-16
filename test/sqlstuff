@@ -1,0 +1,1 @@
+ALTER TABLE studentinquiries ADD COLUMN QRCodePath VARCHAR(255);

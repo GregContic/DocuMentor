@@ -347,7 +347,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 <label for="status" class="col-sm-2 col-form-label">Status:</label>
                 <div class="col-sm-6">
                     <select class="form-control" id="status" name="status" value="<?php echo $Status; ?>">
-                        <option value="Pending for Approval">Pending for Approval</option>
+                        <option value="Pending">Pending for Approval</option>
                         <option value="In Progress">In Progress</option>
                         <option value="Completed">Completed, Ready for Pickup</option>
                     </select>

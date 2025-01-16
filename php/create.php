@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $StudentLRN = $_POST["studentLRN"];
     $DocumentType = $_POST["docType"];
     $Details = $_POST["details"];
-    $Status = $_POST["status"];
+    $Status = "Pending"; // Default status for new requests
 
     do {
         if (empty($StudentName) || empty($StudentLRN) || empty($DocumentType) || empty($Details) || empty($Status)) {
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $successMessage = "Added successfully";
 
-        header("Location: /DocuMentor/admin_index_new.php");
+        header("Location: /DocuMentor/admin/admin_index_new.php");
         exit;
 
     } while (false);
@@ -309,7 +309,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="docType" class="col-sm-2 col-form-label">Document Type:</label>
                 <div class="col-sm-6">
                     <select class="form-control" id="docType" name="docType" value="<?php echo $DocumentType; ?>">
-                    <option value="">Select Document Type</option>
+                        <option value="">Select Document Type</option>
                         <option value="Transcript of Records (TOR)">Transcript of Records (TOR)</option>
                         <option value="Certificate of Graduation">Certificate of Graduation</option>
                         <option value="Diploma">Diploma</option>
@@ -327,12 +327,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="details" class="col-sm-2 col-form-label">Details:</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="details" name="details" value="<?php echo $Details; ?>">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label for="status" class="col-sm-2 col-form-label">Status:</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" id="status" name="status" value="<?php echo $Status; ?>">
                 </div>
             </div>
 
