@@ -19,7 +19,7 @@ $successMessage = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (!isset($_GET['id'])) {
-        header("Location: /Documentor/admin_index_new.php");
+        header("Location: /Documentor/admin/admin_index_new.php");
         exit;
     }
 
@@ -35,11 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $Details = $row["Details"];
         $Status = $row["Status"];
     } else {
-        header("Location: /Documentor/admin_index_new.php");
+        header("Location: /Documentor/admin/admin_index_new.php");
         exit;
     }
 } else {
-    $id = intval($_POST["id"]); // Retrieve $id from form
+    $id = intval($_POST["id"]); 
     $StudentName = $_POST["studentName"];
     $StudentLRN = $_POST["studentLRN"];
     $DocumentType = $_POST["docType"];
@@ -52,20 +52,68 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             break;
         }
 
-        // Use prepared statements to prevent SQL injection
-        $stmt = $connection->prepare("UPDATE studentinquiries SET StudentName=?, StudentLRN=?, DocumentType=?, Details=?, Status=? WHERE id=?");
-        $stmt->bind_param("sssssi", $StudentName, $StudentLRN, $DocumentType, $Details, $Status, $id);
+        // Start transaction
+        $connection->begin_transaction();
 
-        if (!$stmt->execute()) {
-            $errorMessage = "Error: " . $stmt->error;
+        try {
+            // First update the studentinquiries record
+            $stmt = $connection->prepare("UPDATE studentinquiries SET StudentName=?, StudentLRN=?, DocumentType=?, Details=?, Status=? WHERE id=?");
+            $stmt->bind_param("sssssi", $StudentName, $StudentLRN, $DocumentType, $Details, $Status, $id);
+
+            if (!$stmt->execute()) {
+                throw new Exception("Error updating inquiry: " . $stmt->error);
+            }
+
+            $stmt->close();
+
+            if ($Status === 'Completed') {
+                // Insert into archive with current timestamp
+                $archiveQuery = "INSERT INTO document_archive 
+                                (original_id, StudentName, StudentLRN, DocumentType, Details, Status, InquiryDate, QRCodePath, CompletionDate) 
+                                SELECT id, StudentName, StudentLRN, DocumentType, Details, Status, InquiryDate, QRCodePath, NOW() 
+                                FROM studentinquiries 
+                                WHERE id = ?";
+                
+                $archiveStmt = $connection->prepare($archiveQuery);
+                $archiveStmt->bind_param("i", $id);
+                
+                if (!$archiveStmt->execute()) {
+                    throw new Exception("Error archiving record: " . $archiveStmt->error);
+                }
+                
+                $archiveStmt->close();
+
+                // Instead of deleting, mark the record as archived in studentinquiries
+                $updateQuery = "UPDATE studentinquiries SET is_archived = 1 WHERE id = ?";
+                $updateStmt = $connection->prepare($updateQuery);
+                $updateStmt->bind_param("i", $id);
+                
+                if (!$updateStmt->execute()) {
+                    throw new Exception("Error marking record as archived: " . $updateStmt->error);
+                }
+                
+                $updateStmt->close();
+                
+                // Commit transaction
+                $connection->commit();
+                
+                // Redirect to archive page with success message
+                header("Location: /Documentor/admin/school_archive.php?archived=true");
+                exit;
+            } else {
+                // Commit transaction
+                $connection->commit();
+                
+                $successMessage = "Inquiry updated successfully.";
+                header("Location: /Documentor/admin/admin_index_new.php");
+                exit;
+            }
+        } catch (Exception $e) {
+            // Rollback transaction on error
+            $connection->rollback();
+            $errorMessage = $e->getMessage();
             break;
         }
-
-        $stmt->close();
-
-        $successMessage = "Inquiry updated successfully.";
-        header("Location: /Documentor/admin/admin_index_new.php");
-        exit;
     } while (false);
 }
 ?>
@@ -322,19 +370,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             <div class="row mb-3">
                 <label for="docType" class="col-sm-2 col-form-label">Document Type:</label>
                 <div class="col-sm-6">
-                    <select class="form-control" id="docType" name="docType" value="<?php echo $DocumentType; ?>">
-                    <option value="">Select Document Type</option>
-                        <option value="Transcript of Records (TOR)">Transcript of Records (TOR)</option>
-                        <option value="Certificate of Graduation">Certificate of Graduation</option>
-                        <option value="Diploma">Diploma</option>
-                        <option value="Certificate of Enrollment">Certificate of Enrollment</option>
-                        <option value="Affidavit of Lost Documents">Affidavit of Lost Documents</option>
-                        <option value="Form 137">Form 137</option>
-                        <option value="Certificate of Good Moral">Certificate of Good Moral</option>
-                        <option value="Transcript (Form 10)">Transcript (Form 10)</option>
-                        <option value="ID Card">ID Card</option>
-                        <option value="other">Other</option>
-                    </select>
+                    <input class="form-control" id="docType" name="docType" value="<?php echo $DocumentType; ?>">
                 </div>
             </div>
             <div class="row mb-3">

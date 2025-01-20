@@ -13,7 +13,7 @@ if ($connection->connect_error) {
 }
 
 // read all row from database table
-$sql = "SELECT * FROM studentinquiries";
+$sql = "SELECT * FROM studentinquiries WHERE is_archived = 0";
 $result = $connection->query($sql);
 
 if (!$result) {
@@ -23,9 +23,9 @@ if (!$result) {
 $statusFilter = isset($_GET['status']) ? $_GET['status'] : 'all';
 
 // Modify the SQL query based on the filter
-$sql = "SELECT * FROM studentinquiries";
+$sql = "SELECT * FROM studentinquiries WHERE is_archived = 0";
 if ($statusFilter !== 'all') {
-    $sql .= " WHERE Status = '$statusFilter'";
+    $sql .= " AND Status = '$statusFilter'";
 }
 $result = $connection->query($sql);
 
@@ -363,6 +363,27 @@ function filterByStatus(status) {
                 font-size: 0.9rem;
             }
         }
+
+        .status-select {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 2px solid #e0e0e0;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .status-select:hover {
+            border-color: #3498db;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -399,6 +420,7 @@ function filterByStatus(status) {
                     <li><a href="#manage"><i class="fas fa-tasks"></i> Manage Inquiries</a></li>
                     <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
                     <li><a href="#support"><i class="fas fa-headset"></i> Support</a></li>
+                    <li><a href="school_archive.php"><i class="fas fa-archive"></i> Document Archive</a></li>
                 </ul>
             </nav>
         </aside>
@@ -472,8 +494,14 @@ function filterByStatus(status) {
                                     <td>{$row['DocumentType']}</td>
                                     <td>{$row['InquiryDate']}</td>
                                     <td>{$row['Details']}</td>
-                                    <td><span class='status {$statusClass}'>{$row['Status']}</span></td>
-                                    
+                                    <td>
+                                        <select class='form-control status-select' onchange='updateStatus(this, {$row['ID']})'>
+                                            <option value='Pending' " . ($row['Status'] == 'Pending' ? 'selected' : '') . ">Pending</option>
+                                            <option value='In Progress' " . ($row['Status'] == 'In Progress' ? 'selected' : '') . ">In Progress</option>
+                                            <option value='Completed' " . ($row['Status'] == 'Completed' ? 'selected' : '') . ">Completed</option>
+                                            <option value='Rejected' " . ($row['Status'] == 'Rejected' ? 'selected' : '') . ">Rejected</option>
+                                        </select>
+                                    </td>
                                     <td>
                                         <a class='btn btn-primary' href='/Documentor/php/edit.php?id={$row['ID']}'>
                                             <i class='fas fa-edit'></i>
@@ -502,6 +530,55 @@ function filterByStatus(status) {
                 row.style.animation = `fadeIn 0.3s ease-out ${index * 0.1}s both`;
             });
         });
+    </script>
+
+    <script>
+    function updateStatus(selectElement, id) {
+        const newStatus = selectElement.value;
+        
+        // Show confirmation dialog if status is being set to Completed
+        if (newStatus === 'Completed') {
+            if (!confirm('This will move the inquiry to the archive. Continue?')) {
+                // Reset the select to its previous value if user cancels
+                selectElement.value = selectElement.getAttribute('data-previous-value');
+                return;
+            }
+        }
+        
+        // Store the current value before making the request
+        selectElement.setAttribute('data-previous-value', selectElement.value);
+        
+        // Send AJAX request to update status
+        fetch('/Documentor/php/update_status.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `id=${id}&status=${newStatus}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // If status was updated to Completed, refresh the page
+                if (newStatus === 'Completed') {
+                    window.location.href = '/Documentor/admin/school_archive.php?archived=true';
+                } else {
+                    // Show success message
+                    alert('Status updated successfully');
+                }
+            } else {
+                alert('Error updating status: ' + data.message);
+                // Reset the select to its previous value
+                selectElement.value = selectElement.getAttribute('data-previous-value');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error updating status');
+            // Reset the select to its previous value
+            selectElement.value = selectElement.getAttribute('data-previous-value');
+        });
+    }
     </script>
 </body>
 </html>
