@@ -36,4 +36,18 @@ ALTER TABLE document_archive DROP FOREIGN KEY document_archive_ibfk_1;
 ALTER TABLE document_archive ADD CONSTRAINT document_archive_ibfk_1 
     FOREIGN KEY (original_id) REFERENCES studentinquiries(ID) 
     ON UPDATE CASCADE;
+
+--blockchain:
+CREATE TABLE document_blockchain (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    document_id INT,
+    previous_hash VARCHAR(64),
+    current_hash VARCHAR(64),
+    timestamp DATETIME,
+    action VARCHAR(255),
+    student_name VARCHAR(255),
+    document_type VARCHAR(255),
+    status VARCHAR(50),
+    FOREIGN KEY (document_id) REFERENCES studentinquiries(ID)
+);
 /
