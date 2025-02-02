@@ -70,6 +70,52 @@ if (!$result) {
                 transform: translateY(0);
             }
         }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(19, 132, 150, 0.15);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .fa-history {
+            font-size: 0.9em;
+        }
+
+        .document-info {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .document-info h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .no-history {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -135,6 +181,7 @@ if (!$result) {
                                     <th>Completion Date</th>
                                     <th>Details</th>
                                     <th>QR Code</th>
+                                    <th>History</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,6 +198,11 @@ if (!$result) {
                                             <img src='/{$row['QRCodePath']}' alt='QR Code' width='50' height='50'
                                                  onclick='window.open(this.src)' style='cursor: pointer;'>
                                         </td>
+                                        <td>
+                                            <a class='btn btn-info' href='school_archive.php?view_blockchain={$row['original_id']}'>
+                                                <i class='fas fa-history'></i> View History
+                                            </a>
+                                        </td>
                                     </tr>
                                     ";
                                 }
@@ -158,6 +210,63 @@ if (!$result) {
                             </tbody>
                         </table>
                     </div>
+                </section>
+
+                <section id="blockchain" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-link"></i> Document Blockchain History</h2>
+                    </div>
+                    
+                    <?php
+                    if (isset($_GET['view_blockchain'])) {
+                        require_once '../php/blockchain_utils.php';
+                        
+                        $documentId = intval($_GET['view_blockchain']);
+                        
+                        // Get document details
+                        $stmt = $connection->prepare("SELECT StudentName, DocumentType FROM studentinquiries WHERE id = ?");
+                        $stmt->bind_param("i", $documentId);
+                        $stmt->execute();
+                        $docResult = $stmt->get_result();
+                        $docInfo = $docResult->fetch_assoc();
+                        
+                        if ($docInfo) {
+                            echo "<div class='document-info'>
+                                    <h3>Document Information</h3>
+                                    <p><strong>Student:</strong> {$docInfo['StudentName']}</p>
+                                    <p><strong>Document Type:</strong> {$docInfo['DocumentType']}</p>
+                                  </div>";
+                        }
+                        
+                        $stmt = $connection->prepare("SELECT * FROM document_blockchain 
+                                                    WHERE document_id = ? 
+                                                    ORDER BY timestamp DESC");
+                        $stmt->bind_param("i", $documentId);
+                        $stmt->execute();
+                        $blockchain_result = $stmt->get_result();
+                        
+                        if ($blockchain_result->num_rows > 0) {
+                            echo "<div class='blockchain-container'>";
+                            while ($block = $blockchain_result->fetch_assoc()) {
+                                echo "
+                                <div class='blockchain-block'>
+                                    <div class='block-header'>
+                                        <span class='timestamp'>{$block['timestamp']}</span>
+                                        <span class='action'>{$block['action']}</span>
+                                    </div>
+                                    <div class='block-content'>
+                                        <p><strong>Status:</strong> {$block['status']}</p>
+                                        <p class='hash'><strong>Hash:</strong> {$block['current_hash']}</p>
+                                        <p class='hash'><strong>Previous Hash:</strong> {$block['previous_hash']}</p>
+                                    </div>
+                                </div>";
+                            }
+                            echo "</div>";
+                        } else {
+                            echo "<p class='no-history'>No blockchain history available for this document.</p>";
+                        }
+                    }
+                    ?>
                 </section>
             </main>
         </div>

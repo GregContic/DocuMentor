@@ -1,4 +1,6 @@
 <?php
+require_once 'blockchain_utils.php';
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -20,6 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $connection->begin_transaction();
     
     try {
+        // Get current document info
+        $stmt = $connection->prepare("SELECT StudentName, DocumentType FROM studentinquiries WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $document = $result->fetch_assoc();
+        
         // Update the status
         $stmt = $connection->prepare("UPDATE studentinquiries SET Status = ? WHERE id = ?");
         $stmt->bind_param("si", $status, $id);
@@ -28,7 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             throw new Exception("Error updating status: " . $stmt->error);
         }
         
-        // If status is Completed, handle archiving
+        // Add blockchain record
+        $blockchain = new Block($connection);
+        $action = "Status updated to: " . $status;
+        if (!$blockchain->addBlock($id, $document['StudentName'], $document['DocumentType'], $status, $action)) {
+            throw new Exception("Error adding blockchain record");
+        }
+        
+        // Handle archiving if status is Completed
         if ($status === 'Completed') {
             // Insert into archive
             $archiveQuery = "INSERT INTO document_archive 
@@ -52,6 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!$updateStmt->execute()) {
                 throw new Exception("Error marking record as archived: " . $updateStmt->error);
             }
+        }
+        
+        // Verify blockchain integrity
+        if (!$blockchain->verifyChain($id)) {
+            throw new Exception("Blockchain integrity check failed");
         }
         
         // Commit transaction
