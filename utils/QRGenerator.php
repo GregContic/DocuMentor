@@ -9,7 +9,7 @@ use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 
 class QRGenerator {
     public static function generateDocumentQR($documentId, $studentName, $documentType) {
-        $verificationUrl = "http://localhost/documentor/verify.php?id=" . $documentId;
+        $verificationUrl = "https://fuchsia-rochelle-37.tiiny.site/";
         
         $qrCode = new QrCode($verificationUrl);
 

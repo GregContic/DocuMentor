@@ -10,67 +10,55 @@ $Details = "";
 $successMessage = "";
 $errorMessage = "";
 $qrCodePath = "";
+$tempData = null;
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    session_start();
-    $_SESSION['form_data'] = $_POST;
-    
-    $StudentName = mysqli_real_escape_string($conn, $_POST["StudentName"]);
-    $StudentLRN = mysqli_real_escape_string($conn, $_POST["StudentLRN"]);
-    $DocumentType = mysqli_real_escape_string($conn, $_POST["DocumentType"]);
-    $Details = mysqli_real_escape_string($conn, $_POST["Details"]);
-    
-    // Generate temporary QR code for verification
-    $tempId = uniqid();
-    $qrCodePath = QRGenerator::generateDocumentQR($tempId, $StudentName, $DocumentType);
-    
-    // Store data in session
-    $_SESSION['temp_qr'] = $qrCodePath;
-    $_SESSION['temp_id'] = $tempId;
-    
-    // Redirect to QR verification page
-    header("Location: verify_qr.php");
-    exit;
-}
+    if (isset($_POST['verify_complete'])) {
+        // Handle the completion submission
+        $tempData = json_decode(base64_decode($_POST['temp_data']), true);
+        
+        // Insert into database
+        $sql = "INSERT INTO studentinquiries (StudentName, StudentLRN, DocumentType, Details, Status, QRCodePath) 
+                VALUES (?, ?, ?, ?, ?, ?)";
+                
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssss", 
+            $tempData['StudentName'],
+            $tempData['StudentLRN'],
+            $tempData['DocumentType'],
+            $tempData['Details'],
+            $tempData['Status'],
+            $tempData['QRCodePath']
+        );
+        
+        if ($stmt->execute()) {
+            header("Location: /documentor/student/student_index.php");
+            exit;
+        } else {
+            $errorMessage = "Error submitting request. Please try again.";
+        }
+    } else {
+        // Initial form submission - generate QR and show modal
+        $StudentName = mysqli_real_escape_string($conn, $_POST["StudentName"]);
+        $StudentLRN = mysqli_real_escape_string($conn, $_POST["StudentLRN"]);
+        $DocumentType = mysqli_real_escape_string($conn, $_POST["DocumentType"]);
+        $Details = mysqli_real_escape_string($conn, $_POST["Details"]);
+        $Status = "Pending";
 
-// Handle QR verification callback
-if (isset($_POST['verify_qr'])) {
-    session_start();
-    $formData = $_SESSION['form_data'];
-    
-    // Insert into database
-    $Status = "Pending";
-    $sql = "INSERT INTO studentinquiries (StudentName, StudentLRN, DocumentType, Details, Status) 
-            VALUES (?, ?, ?, ?, ?)";
-            
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", 
-        $formData['StudentName'],
-        $formData['StudentLRN'],
-        $formData['DocumentType'],
-        $formData['Details'],
-        $Status
-    );
-    
-    if ($stmt->execute()) {
-        $requestId = $stmt->insert_id;
-        // Generate final QR code
-        $qrCodePath = QRGenerator::generateDocumentQR($requestId, $formData['StudentName'], $formData['DocumentType']);
-        
-        // Update database with QR code path
-        $updateQr = "UPDATE studentinquiries SET QRCodePath = ? WHERE id = ?";
-        $stmt = $conn->prepare($updateQr);
-        $stmt->bind_param("si", $qrCodePath, $requestId);
-        $stmt->execute();
-        
-        // Clear session data
-        unset($_SESSION['form_data']);
-        unset($_SESSION['temp_qr']);
-        unset($_SESSION['temp_id']);
-        
-        echo json_encode(['success' => true, 'message' => 'Request submitted successfully']);
-        exit;
+        // Generate QR code
+        $tempId = uniqid();
+        $qrCodePath = QRGenerator::generateDocumentQR($tempId, $StudentName, $DocumentType);
+
+        // Store data temporarily
+        $tempData = [
+            'StudentName' => $StudentName,
+            'StudentLRN' => $StudentLRN,
+            'DocumentType' => $DocumentType,
+            'Details' => $Details,
+            'Status' => $Status,
+            'QRCodePath' => $qrCodePath
+        ];
     }
 }
 ?>
@@ -208,16 +196,58 @@ if (isset($_POST['verify_qr'])) {
     <div id="qrModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Document Request Submitted</h2>
-            <p>Your request has been submitted successfully. Please save this QR code for future reference.</p>
+            <h2>Verify Document Request</h2>
+            <p>Please scan this QR code to verify your document request.</p>
             <div class="qr-container">
                 <img id="qrCode" src="" alt="QR Code">
             </div>
-            <button class="btn btn-primary" onclick="downloadQR()">
-                <i class="fas fa-download"></i> Download QR Code
-            </button>
+            <p class="qr-instructions">Scanning this QR code will redirect you to our verification website.</p>
+            <div class="verification-actions">
+                <button class="btn btn-primary" onclick="downloadQR()">
+                    <i class="fas fa-download"></i> Download QR Code
+                </button>
+                <form method="POST" id="completeForm">
+                    <input type="hidden" name="verify_complete" value="1">
+                    <input type="hidden" name="temp_data" value="<?php echo isset($tempData) ? base64_encode(json_encode($tempData)) : ''; ?>">
+                    <button type="submit" class="btn btn-success" id="completeBtn">
+                        <i class="fas fa-check-circle"></i> Complete Submission
+                    </button>
+                </form>
+            </div>
+            <p class="verification-notice">Please click 'Complete Submission' after scanning the QR code.</p>
         </div>
     </div>
+
+    <style>
+    .verification-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+
+    .verification-notice {
+        margin-top: 15px;
+        color: #e74c3c;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .qr-instructions {
+        color: #666;
+        margin: 15px 0;
+        font-style: italic;
+    }
+
+    .btn-success {
+        background: #2ecc71;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #27ae60;
+    }
+    </style>
 
     <script>
         // Get the modal
@@ -239,13 +269,21 @@ if (isset($_POST['verify_qr'])) {
 
         // Close modal when clicking (x)
         span.onclick = function() {
+            if (!confirm("Are you sure you want to cancel the submission?")) {
+                return;
+            }
             modal.style.display = "none";
+            window.location.href = "/documentor/student/student_index.php";
         }
 
         // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target == modal) {
+                if (!confirm("Are you sure you want to cancel the submission?")) {
+                    return;
+                }
                 modal.style.display = "none";
+                window.location.href = "/documentor/student/student_index.php";
             }
         }
 
@@ -256,14 +294,6 @@ if (isset($_POST['verify_qr'])) {
             link.href = document.getElementById('qrCode').src;
             link.click();
         }
-
-        // Auto-hide alerts after 5 seconds
-        setTimeout(function() {
-            var alerts = document.getElementsByClassName('alert');
-            for(var i = 0; i < alerts.length; i++) {
-                alerts[i].style.display = 'none';
-            }
-        }, 5000);
     </script>
 </body>
 </html>
