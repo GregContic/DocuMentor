@@ -50,4 +50,6 @@ CREATE TABLE document_blockchain (
     status VARCHAR(50),
     FOREIGN KEY (document_id) REFERENCES studentinquiries(ID)
 );
+ALTER TABLE reglog ADD COLUMN is_admin BOOLEAN DEFAULT FALSE;
+UPDATE reglog SET is_admin = TRUE WHERE email = 'admin@example.com';
 /

@@ -1,4 +1,5 @@
 <?php
+require_once 'auth_check.php';
 $servername = "localhost";
 $username = "root";
 $password = "";

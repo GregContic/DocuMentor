@@ -1,32 +1,41 @@
 <?php
+session_start();
 require 'config.php';
 
 if (isset($_POST["submit"])) {
-    $usernameOrEmail = mysqli_real_escape_string($conn, $_POST["usernameOrEmail"]);
+    $usernameemail = mysqli_real_escape_string($conn, $_POST["usernameemail"]);
     $password = $_POST["password"];
-
-    // Modified query to also fetch the user's role
-    $query = "SELECT * FROM reglog WHERE email = '$usernameOrEmail'";
-    $result = mysqli_query($conn, $query);
+    
+    // Add debug output
+    error_log("Attempting login for user: " . $usernameemail);
+    
+    $result = mysqli_query($conn, "SELECT * FROM reglog WHERE email = '$usernameemail'");
+    $row = mysqli_fetch_assoc($result);
 
     if (mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
-
-        // Verify password
-        if (password_verify($password, $user["password"])) {
-            echo "<script>alert('Login successful!');</script>";
-            // Check user role and redirect accordingly
-            if ($user["role"] === "admin") {
-                header("Location: /documentor/admin/admin_index_new.php");
+        if (password_verify($password, $row["password"])) {
+            $_SESSION["login"] = true;
+            $_SESSION["id"] = $row["id"];
+            
+            // Debug output
+            error_log("User is_admin value: " . ($row["is_admin"] ? "true" : "false"));
+            
+            // Set user type based on is_admin column
+            if ($row["is_admin"] == 1) {
+                $_SESSION["user_type"] = "admin";
+                error_log("Setting user_type to admin");
+                header("Location: admin/admin_index_new.php");
             } else {
-                header("Location: /documentor/student/student_index.php");
+                $_SESSION["user_type"] = "student";
+                error_log("Setting user_type to student");
+                header("Location: student/student_index.php");
             }
-            exit(); // Add exit after redirect
+            exit;
         } else {
-            echo "<script>alert('Incorrect password.');</script>";
+            echo "<script> alert('Wrong Password'); </script>";
         }
     } else {
-        echo "<script>alert('No user found with that username or email.');</script>";
+        echo "<script> alert('User Not Registered'); </script>";
     }
 }
 ?>
@@ -56,7 +65,7 @@ if (isset($_POST["submit"])) {
                     <input type="text" 
                            class="form-control"
                            id="usernameOrEmail" 
-                           name="usernameOrEmail" 
+                           name="usernameemail" 
                            placeholder="Enter your email" 
                            required>
                 </div>
